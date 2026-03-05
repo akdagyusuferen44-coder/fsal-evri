@@ -3,129 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hızlı Çeviri</title>
-
+<title>Basit Çeviri</title>
 <style>
-* {
-    box-sizing: border-box;
+body{
+font-family: Arial;
+text-align:center;
+background:#f2f2f2;
+padding:30px;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+textarea{
+width:80%;
+height:120px;
+margin:10px;
+padding:10px;
 }
 
-.container {
-    background: white;
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    resize: none;
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-.select-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-select {
-    flex: 1;
-    padding: 8px;
-    border-radius: 8px;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    background: #2a5298;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #1e3c72;
-}
-
-/* Mobil için ekstra ayar */
-@media (max-width: 480px) {
-    h1 {
-        font-size: 20px;
-    }
+button{
+padding:10px 20px;
+font-size:16px;
+cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>🌍 Mobil Çeviri</h1>
+<h2>Çeviri Sitesi</h2>
 
-    <textarea id="inputText" placeholder="Metni yaz..."></textarea>
+<textarea id="inputText" placeholder="Metin yaz"></textarea>
+<br>
 
-    <div class="select-group">
-        <select id="sourceLang">
-            <option value="tr">Türkçe</option>
-            <option value="en">İngilizce</option>
-            <option value="de">Almanca</option>
-            <option value="fr">Fransızca</option>
-        </select>
+<select id="targetLang">
+<option value="en">İngilizce</option>
+<option value="tr">Türkçe</option>
+<option value="de">Almanca</option>
+<option value="fr">Fransızca</option>
+</select>
 
-        <select id="targetLang">
-            <option value="en">İngilizce</option>
-            <option value="tr">Türkçe</option>
-            <option value="de">Almanca</option>
-            <option value="fr">Fransızca</option>
-        </select>
-    </div>
+<br><br>
 
-    <button onclick="translateText()">Çevir</button>
+<button onclick="translateText()">Çevir</button>
 
-    <textarea id="outputText" placeholder="Çeviri burada..." readonly></textarea>
-</div>
+<textarea id="outputText" placeholder="Çeviri burada çıkacak"></textarea>
 
 <script>
-function translateText() {
-    let text = document.getElementById("inputText").value;
-    let source = document.getElementById("sourceLang").value;
-    let target = document.getElementById("targetLang").value;
+async function translateText() {
 
-    fetch(https://api.mymemory.translated.net/get?q=${text}&langpair=${source}|${target})
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("outputText").value =
-        data.responseData.translatedText;
-    })
-    .catch(error => {
-        alert("Bir hata oluştu!");
-    });
+let text = document.getElementById("inputText").value;
+let target = document.getElementById("targetLang").value;
+
+let url = "https://api.mymemory.translated.net/get?q=" + text + "&langpair=tr|" + target;
+
+let response = await fetch(url);
+let data = await response.json();
+
+document.getElementById("outputText").value = data.responseData.translatedText;
+
 }
 </script>
 
